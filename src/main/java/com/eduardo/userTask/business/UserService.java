@@ -1,0 +1,72 @@
+package com.eduardo.userTask.business;
+
+import com.eduardo.userTask.dto.UserRequestDTO;
+import com.eduardo.userTask.dto.UserResponseDTO;
+import com.eduardo.userTask.dto.UserUpdateDTO;
+import com.eduardo.userTask.infrastructure.entities.User;
+import com.eduardo.userTask.infrastructure.repositories.UserRepository;
+import com.eduardo.userTask.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository repository;
+    private final UserMapper mapper;
+
+    public UserResponseDTO save(UserRequestDTO dto){
+        User user = mapper.toEntity(dto);
+        User saved = repository.save(user);
+        return mapper.toDTO(saved);
+    }
+
+    public List<UserResponseDTO> findAll(){
+        return repository.findByDeletedAtIsNull()
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+    }
+
+    public UserResponseDTO find(Integer id){
+        User user = repository.findById(id).orElseThrow(
+                () -> new RuntimeException("Usuário não encontrado")
+        );
+
+        return mapper.toDTO(user);
+    }
+
+    @Transactional
+    public UserResponseDTO update(Integer id, UserUpdateDTO dto){
+        User user = repository.findById(id).orElseThrow(
+                () -> new RuntimeException("Usuário não encontrado")
+        );
+
+        if (dto.getName() != null){
+            user.setName(dto.getName());
+        }
+        if (dto.getEmail() != null){
+            user.setEmail(dto.getEmail());
+        }
+
+        User updated = repository.save(user);
+
+        return mapper.toDTO(updated);
+    }
+
+    @Transactional
+    public void delete(Integer id){
+        User user = repository.findById(id).orElseThrow(
+                () -> new RuntimeException("Usuário não encontrado")
+        );
+
+        user.setDeletedAt(LocalDateTime.now());
+
+        repository.save(user);
+    }
+}
