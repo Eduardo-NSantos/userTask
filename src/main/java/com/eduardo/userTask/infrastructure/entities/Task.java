@@ -23,7 +23,6 @@ public class Task {
     @Column(nullable = false)
     private String title;
 
-    @Column
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -34,10 +33,9 @@ public class Task {
     private LocalDateTime dueDate;
 
     @Enumerated(EnumType.STRING)
-    @Column
     private TaskPriority priority;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -50,6 +48,7 @@ public class Task {
     @PrePersist
     protected void onCreated(){
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
     }
 
     @PreUpdate
