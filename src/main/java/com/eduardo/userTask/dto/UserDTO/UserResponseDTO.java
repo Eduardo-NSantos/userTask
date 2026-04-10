@@ -1,4 +1,4 @@
-package com.eduardo.userTask.dto;
+package com.eduardo.userTask.dto.UserDTO;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.eduardo.userTask.mapper;
 
-import com.eduardo.userTask.dto.UserRequestDTO;
-import com.eduardo.userTask.dto.UserResponseDTO;
+import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
+import com.eduardo.userTask.dto.UserDTO.UserResponseDTO;
 import com.eduardo.userTask.infrastructure.entities.User;
 import org.springframework.stereotype.Component;
 

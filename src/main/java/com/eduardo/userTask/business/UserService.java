@@ -1,8 +1,8 @@
 package com.eduardo.userTask.business;
 
-import com.eduardo.userTask.dto.UserRequestDTO;
-import com.eduardo.userTask.dto.UserResponseDTO;
-import com.eduardo.userTask.dto.UserUpdateDTO;
+import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
+import com.eduardo.userTask.dto.UserDTO.UserResponseDTO;
+import com.eduardo.userTask.dto.UserDTO.UserUpdateDTO;
 import com.eduardo.userTask.infrastructure.entities.User;
 import com.eduardo.userTask.infrastructure.repositories.UserRepository;
 import com.eduardo.userTask.mapper.UserMapper;

@@ -1,9 +1,9 @@
 package com.eduardo.userTask.controllers;
 
 import com.eduardo.userTask.business.UserService;
-import com.eduardo.userTask.dto.UserRequestDTO;
-import com.eduardo.userTask.dto.UserResponseDTO;
-import com.eduardo.userTask.dto.UserUpdateDTO;
+import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
+import com.eduardo.userTask.dto.UserDTO.UserResponseDTO;
+import com.eduardo.userTask.dto.UserDTO.UserUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
