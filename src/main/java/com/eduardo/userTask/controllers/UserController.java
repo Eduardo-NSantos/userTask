@@ -5,6 +5,8 @@ import com.eduardo.userTask.dto.UserRequestDTO;
 import com.eduardo.userTask.dto.UserResponseDTO;
 import com.eduardo.userTask.dto.UserUpdateDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +19,31 @@ public class UserController {
     private final UserService user;
 
     @PostMapping
-    public UserResponseDTO create(@RequestBody UserRequestDTO dto){
-        return user.save(dto);
+    public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO dto){
+        UserResponseDTO response = user.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<UserResponseDTO> getAll(){
-        return user.findAll();
+    public ResponseEntity<List<UserResponseDTO>> getAll(){
+        return ResponseEntity.ok(user.findAll());
     }
 
     @GetMapping("/{id}")
-    public UserResponseDTO get(@PathVariable Integer id){
-        return user.find(id);
+    public ResponseEntity<UserResponseDTO> get(@PathVariable Integer id){
+        UserResponseDTO response = user.find(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public UserResponseDTO update(@PathVariable Integer id, @RequestBody UserUpdateDTO dto){
-        return user.update(id, dto);
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Integer id, @RequestBody UserUpdateDTO dto){
+        UserResponseDTO response = user.update(id, dto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
         user.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

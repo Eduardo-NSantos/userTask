@@ -7,8 +7,10 @@ import com.eduardo.userTask.infrastructure.entities.User;
 import com.eduardo.userTask.infrastructure.repositories.UserRepository;
 import com.eduardo.userTask.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +37,9 @@ public class UserService {
 
     public UserResponseDTO find(Integer id){
         User user = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado")
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
+                )
         );
 
         return mapper.toDTO(user);
@@ -44,7 +48,9 @@ public class UserService {
     @Transactional
     public UserResponseDTO update(Integer id, UserUpdateDTO dto){
         User user = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado")
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
+                )
         );
 
         if (dto.getName() != null){
@@ -62,7 +68,9 @@ public class UserService {
     @Transactional
     public void delete(Integer id){
         User user = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado")
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
+                )
         );
 
         user.setDeletedAt(LocalDateTime.now());
