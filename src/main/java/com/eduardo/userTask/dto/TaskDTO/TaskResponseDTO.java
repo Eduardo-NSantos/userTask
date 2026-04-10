@@ -2,6 +2,7 @@ package com.eduardo.userTask.dto.TaskDTO;
 
 import com.eduardo.userTask.enums.TaskPriority;
 import com.eduardo.userTask.enums.TaskStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 public class TaskResponseDTO {
     private Integer id;
     private String title;

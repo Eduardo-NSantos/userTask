@@ -3,14 +3,16 @@ package com.eduardo.userTask.infrastructure.entities;
 import com.eduardo.userTask.enums.TaskPriority;
 import com.eduardo.userTask.enums.TaskStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tasks")
 public class Task {
 
