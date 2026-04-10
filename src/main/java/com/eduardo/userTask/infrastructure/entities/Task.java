@@ -1,5 +1,7 @@
 package com.eduardo.userTask.infrastructure.entities;
 
+import com.eduardo.userTask.enums.TaskPriority;
+import com.eduardo.userTask.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,14 +24,16 @@ public class Task {
     @Column
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private TaskStatus status;
 
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
+    @Enumerated(EnumType.STRING)
     @Column
-    private String priority;
+    private TaskPriority priority;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
