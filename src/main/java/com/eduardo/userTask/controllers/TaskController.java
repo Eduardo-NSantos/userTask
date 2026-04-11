@@ -29,4 +29,9 @@ public class TaskController {
     public ResponseEntity<List<TaskResponseDTO>> getAll(){
         return ResponseEntity.ok(task.findAll());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskResponseDTO> get(Integer id){
+        return ResponseEntity.ok(task.find(id));
+    }
 }
