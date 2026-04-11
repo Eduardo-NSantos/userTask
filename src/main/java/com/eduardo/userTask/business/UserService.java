@@ -22,6 +22,22 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
 
+    public User findEntity(Integer id){
+        User user = repository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
+                )
+        );
+
+        if (user.getDeletedAt() != null){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Usuário deletado"
+            );
+        }
+
+        return user;
+    }
+
     public UserResponseDTO save(UserRequestDTO dto){
         User user = mapper.toEntity(dto);
         User saved = repository.save(user);
@@ -36,22 +52,14 @@ public class UserService {
     }
 
     public UserResponseDTO find(Integer id){
-        User user = repository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
-                )
-        );
+        User user = findEntity(id);
 
         return mapper.toDTO(user);
     }
 
     @Transactional
     public UserResponseDTO update(Integer id, UserUpdateDTO dto){
-        User user = repository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
-                )
-        );
+        User user = findEntity(id);
 
         if (dto.getName() != null){
             user.setName(dto.getName());
@@ -67,11 +75,7 @@ public class UserService {
 
     @Transactional
     public void delete(Integer id){
-        User user = repository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
-                )
-        );
+        User user = findEntity(id);
 
         user.setDeletedAt(LocalDateTime.now());
 
