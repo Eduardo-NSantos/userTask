@@ -22,7 +22,7 @@ public class TaskController {
             @RequestBody TaskRequestDTO dto
     ){
         TaskResponseDTO saved = task.create(userId, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(task.create(userId, dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping
