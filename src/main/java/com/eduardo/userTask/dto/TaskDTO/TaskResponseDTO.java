@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TaskResponseDTO {
     private Integer id;
+    private Integer userId;
     private String title;
     private String description;
     private TaskStatus status;

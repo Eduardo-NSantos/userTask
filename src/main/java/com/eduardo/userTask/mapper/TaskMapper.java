@@ -19,6 +19,7 @@ public class TaskMapper {
     public TaskResponseDTO toDTO(Task task){
         return TaskResponseDTO.builder()
                 .id(task.getId())
+                .userId(task.getUser().getId())
                 .title(task.getTitle())
                 .description(task.getDescription())
                 .status(task.getStatus())
