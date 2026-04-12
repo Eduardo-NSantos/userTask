@@ -16,13 +16,13 @@ import java.util.List;
 public class TaskController {
     private final TaskService task;
 
-    @PostMapping("/{id}")
+    @PostMapping("/{userId}")
     public ResponseEntity<TaskResponseDTO> create(
-            @PathVariable Integer id,
+            @PathVariable Integer userId,
             @RequestBody TaskRequestDTO dto
     ){
-        TaskResponseDTO saved = task.create(id, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(task.create(id, dto));
+        TaskResponseDTO saved = task.create(userId, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(task.create(userId, dto));
     }
 
     @GetMapping
@@ -31,7 +31,15 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskResponseDTO> get(Integer id){
+    public ResponseEntity<TaskResponseDTO> get(@PathVariable Integer id){
         return ResponseEntity.ok(task.find(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskResponseDTO> update(
+            @PathVariable Integer id,
+            @RequestBody TaskRequestDTO dto
+    ){
+        return ResponseEntity.ok(task.update(id, dto));
     }
 }

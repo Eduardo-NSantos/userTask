@@ -53,4 +53,27 @@ public class TaskService {
     public TaskResponseDTO find(Integer id){
         return mapper.toDTO(findEntity(id));
     }
+
+    public TaskResponseDTO update(Integer id, TaskRequestDTO dto){
+        Task task = findEntity(id);
+
+        if (dto.getTitle() != null){
+            task.setTitle(dto.getTitle());
+        }
+        if (dto.getDescription() != null){
+            task.setDescription(dto.getDescription());
+        }
+        if (dto.getStatus() != null){
+            task.setStatus(dto.getStatus());
+        }
+        if (dto.getDueDate() != null){
+            task.setDueDate(dto.getDueDate());
+        }
+        if (dto.getPriority() != null){
+            task.setPriority(dto.getPriority());
+        }
+
+        Task saved = repository.save(task);
+        return mapper.toDTO(saved);
+    }
 }
