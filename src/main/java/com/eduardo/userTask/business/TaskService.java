@@ -76,4 +76,10 @@ public class TaskService {
         Task saved = repository.save(task);
         return mapper.toDTO(saved);
     }
+
+    public void delete(Integer id){
+        Task task = findEntity(id);
+
+        repository.delete(task);
+    }
 }
