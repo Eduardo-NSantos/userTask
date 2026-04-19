@@ -4,12 +4,13 @@ import com.eduardo.userTask.business.UserService;
 import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
 import com.eduardo.userTask.dto.UserDTO.UserResponseDTO;
 import com.eduardo.userTask.dto.UserDTO.UserUpdateDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -19,14 +20,16 @@ public class UserController {
     private final UserService user;
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponseDTO> create(
+            @RequestBody @Valid UserRequestDTO dto
+    ){
         UserResponseDTO response = user.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAll(){
-        return ResponseEntity.ok(user.findAll());
+    public ResponseEntity<Page<UserResponseDTO>> getAll(Pageable pageable){
+        return ResponseEntity.ok(user.findAll(pageable));
     }
 
     @GetMapping("/{id}")
@@ -36,7 +39,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Integer id, @RequestBody UserUpdateDTO dto){
+    public ResponseEntity<UserResponseDTO> update(
+            @PathVariable Integer id,
+            @RequestBody @Valid UserUpdateDTO dto
+    ){
         UserResponseDTO response = user.update(id, dto);
         return ResponseEntity.ok(response);
     }
