@@ -10,6 +10,7 @@ import com.eduardo.userTask.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class TaskService {
     }
 
     public TaskResponseDTO create(Integer userId, TaskRequestDTO dto){
-        User user = userService.findEntity(userId);
+        User user = userService.getActiveUserOrThrow(userId);
 
         Task task = mapper.toEntity(dto);
         task.setUser(user);
@@ -54,6 +55,7 @@ public class TaskService {
         return mapper.toDTO(findEntity(id));
     }
 
+    @Transactional
     public TaskResponseDTO update(Integer id, TaskRequestDTO dto){
         Task task = findEntity(id);
 
@@ -77,6 +79,7 @@ public class TaskService {
         return mapper.toDTO(saved);
     }
 
+    @Transactional
     public void delete(Integer id){
         Task task = findEntity(id);
 
