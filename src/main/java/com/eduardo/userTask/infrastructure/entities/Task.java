@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -33,6 +33,7 @@ public class Task {
     private LocalDateTime dueDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TaskPriority priority;
 
     @ManyToOne(optional = false)
@@ -49,6 +50,10 @@ public class Task {
     protected void onCreated(){
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+
+        if (status == null){
+            status = TaskStatus.PENDING;
+        }
     }
 
     @PreUpdate
