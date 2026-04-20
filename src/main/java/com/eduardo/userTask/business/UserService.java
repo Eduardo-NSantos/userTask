@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public Page<UserResponseDTO> findAll(
-            @PageableDefault(size = 10, sort = "name") Pageable pageable
+            @PageableDefault(sort = "name") Pageable pageable
     ){
         return repository.findByDeletedAtIsNull(pageable)
                 .map(mapper::toDTO);
