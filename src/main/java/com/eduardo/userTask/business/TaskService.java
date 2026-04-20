@@ -2,7 +2,7 @@ package com.eduardo.userTask.business;
 
 import com.eduardo.userTask.dto.TaskDTO.TaskRequestDTO;
 import com.eduardo.userTask.dto.TaskDTO.TaskResponseDTO;
-import com.eduardo.userTask.enums.TaskStatus;
+import com.eduardo.userTask.dto.TaskDTO.TaskUpdateDTO;
 import com.eduardo.userTask.infrastructure.entities.Task;
 import com.eduardo.userTask.infrastructure.entities.User;
 import com.eduardo.userTask.infrastructure.repositories.TaskRepository;
@@ -36,10 +36,6 @@ public class TaskService {
         Task task = mapper.toEntity(dto);
         task.setUser(user);
 
-        task.setStatus(
-                dto.getStatus() != null ? dto.getStatus() : TaskStatus.PENDING
-        );
-
         Task saved = repository.save(task);
         return mapper.toDTO(saved);
     }
@@ -56,7 +52,7 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskResponseDTO update(Integer id, TaskRequestDTO dto){
+    public TaskResponseDTO update(Integer id, TaskUpdateDTO dto){
         Task task = findEntity(id);
 
         if (dto.getTitle() != null){
@@ -75,8 +71,7 @@ public class TaskService {
             task.setPriority(dto.getPriority());
         }
 
-        Task saved = repository.save(task);
-        return mapper.toDTO(saved);
+        return mapper.toDTO(task);
     }
 
     @Transactional
