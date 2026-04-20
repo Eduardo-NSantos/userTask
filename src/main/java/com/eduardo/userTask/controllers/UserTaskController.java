@@ -1,6 +1,6 @@
 package com.eduardo.userTask.controllers;
 
-import com.eduardo.userTask.business.UserTaskService;
+import com.eduardo.userTask.business.TaskService;
 import com.eduardo.userTask.dto.TaskDTO.TaskResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users/{userId}/tasks")
+@RequestMapping("/usertask/{userId}")
 @RequiredArgsConstructor
 public class UserTaskController {
-    private final UserTaskService userTask;
+    private final TaskService task;
 
     @GetMapping
     public ResponseEntity<List<TaskResponseDTO>> tasksByUser(@PathVariable Integer userId){
-        List<TaskResponseDTO> tasks = userTask.findAllTasksByUser(userId);
+        List<TaskResponseDTO> tasks = task.findAllTasksByUser(userId);
 
         return ResponseEntity.ok(tasks);
     }
@@ -29,6 +29,6 @@ public class UserTaskController {
             @PathVariable Integer userId,
             @PathVariable Integer taskId
     ){
-        return ResponseEntity.ok(userTask.findTaskByUser(userId, taskId));
+        return ResponseEntity.ok(task.findTaskByUser(userId, taskId));
     }
 }

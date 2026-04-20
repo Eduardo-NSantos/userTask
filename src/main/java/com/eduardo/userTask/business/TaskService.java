@@ -51,6 +51,23 @@ public class TaskService {
         return mapper.toDTO(findEntity(id));
     }
 
+    public List<TaskResponseDTO> findAllTasksByUser(Integer userId){
+        return repository.findByUserId(userId)
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
+    }
+
+    public TaskResponseDTO findTaskByUser(Integer userId, Integer taskId){
+        Task task = repository.findByIdAndUserId(taskId, userId).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.FORBIDDEN, "Essa task não pertence a este usuário"
+                )
+        );
+
+        return mapper.toDTO(task);
+    }
+
     @Transactional
     public TaskResponseDTO update(Integer id, TaskUpdateDTO dto){
         Task task = findEntity(id);
