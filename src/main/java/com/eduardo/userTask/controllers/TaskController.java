@@ -21,9 +21,9 @@ public class TaskController {
     @PostMapping("/{userId}")
     public ResponseEntity<TaskResponseDTO> create(
             @PathVariable Integer userId,
-            @RequestBody @Valid TaskRequestDTO dto
+            @RequestBody @Valid TaskRequestDTO request
     ){
-        TaskResponseDTO saved = task.create(userId, dto);
+        TaskResponseDTO saved = task.create(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -40,9 +40,9 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<TaskResponseDTO> update(
             @PathVariable Integer id,
-            @RequestBody @Valid TaskUpdateDTO dto
+            @RequestBody @Valid TaskUpdateDTO update
     ){
-        return ResponseEntity.ok(task.update(id, dto));
+        return ResponseEntity.ok(task.update(id, update));
     }
 
     @DeleteMapping("/{id}")

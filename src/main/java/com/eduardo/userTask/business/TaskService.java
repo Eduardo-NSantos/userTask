@@ -30,10 +30,10 @@ public class TaskService {
         );
     }
 
-    public TaskResponseDTO create(Integer userId, TaskRequestDTO dto){
+    public TaskResponseDTO create(Integer userId, TaskRequestDTO request){
         User user = userService.getActiveUserOrThrow(userId);
 
-        Task task = mapper.toEntity(dto);
+        Task task = mapper.toEntity(request);
         task.setUser(user);
 
         Task saved = repository.save(task);
@@ -69,23 +69,23 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskResponseDTO update(Integer id, TaskUpdateDTO dto){
+    public TaskResponseDTO update(Integer id, TaskUpdateDTO update){
         Task task = findEntity(id);
 
-        if (dto.getTitle() != null){
-            task.setTitle(dto.getTitle());
+        if (update.getTitle() != null){
+            task.setTitle(update.getTitle());
         }
-        if (dto.getDescription() != null){
-            task.setDescription(dto.getDescription());
+        if (update.getDescription() != null){
+            task.setDescription(update.getDescription());
         }
-        if (dto.getStatus() != null){
-            task.setStatus(dto.getStatus());
+        if (update.getStatus() != null){
+            task.setStatus(update.getStatus());
         }
-        if (dto.getDueDate() != null){
-            task.setDueDate(dto.getDueDate());
+        if (update.getDueDate() != null){
+            task.setDueDate(update.getDueDate());
         }
-        if (dto.getPriority() != null){
-            task.setPriority(dto.getPriority());
+        if (update.getPriority() != null){
+            task.setPriority(update.getPriority());
         }
 
         return mapper.toDTO(task);

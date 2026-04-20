@@ -40,10 +40,10 @@ public class UserService {
         }
     }
 
-    public UserResponseDTO save(UserRequestDTO dto){
-        assertEmailNotInUse(dto.getEmail());
+    public UserResponseDTO save(UserRequestDTO request){
+        assertEmailNotInUse(request.getEmail());
 
-        User user = mapper.toEntity(dto);
+        User user = mapper.toEntity(request);
         User saved = repository.save(user);
 
         return mapper.toDTO(saved);
@@ -63,15 +63,15 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO update(Integer id, UserUpdateDTO dto){
+    public UserResponseDTO update(Integer id, UserUpdateDTO update){
         User user = getActiveUserOrThrow(id);
 
-        if (dto.getName() != null){
-            user.setName(dto.getName());
+        if (update.getName() != null){
+            user.setName(update.getName());
         }
-        if (dto.getEmail() != null && !dto.getEmail().equals(user.getEmail())){
-            assertEmailNotInUse(dto.getEmail());
-            user.setEmail(dto.getEmail());
+        if (update.getEmail() != null && !update.getEmail().equals(user.getEmail())){
+            assertEmailNotInUse(update.getEmail());
+            user.setEmail(update.getEmail());
         }
 
         return mapper.toDTO(user);
