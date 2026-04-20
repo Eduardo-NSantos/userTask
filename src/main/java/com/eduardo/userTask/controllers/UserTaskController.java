@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/{userId}/tasks")
 @RequiredArgsConstructor
-public class UserServiceController {
+public class UserTaskController {
     private final UserTaskService userTask;
 
     @GetMapping
