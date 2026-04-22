@@ -30,6 +30,16 @@ public class TaskService {
         );
     }
 
+    public TaskResponseDTO create(TaskRequestDTO request){
+        User user = userService.getActiveUserOrThrow(request.getUserId());
+
+        Task task = mapper.toEntity(request);
+        task.setUser(user);
+
+        Task saved = repository.save(task);
+        return mapper.toDTO(saved);
+    }
+
     public TaskResponseDTO create(Integer userId, TaskRequestDTO request){
         User user = userService.getActiveUserOrThrow(userId);
 

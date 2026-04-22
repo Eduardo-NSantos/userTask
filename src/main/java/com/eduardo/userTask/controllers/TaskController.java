@@ -18,12 +18,11 @@ import java.util.List;
 public class TaskController {
     private final TaskService task;
 
-    @PostMapping("/{userId}")
+    @PostMapping
     public ResponseEntity<TaskResponseDTO> create(
-            @PathVariable Integer userId,
             @RequestBody @Valid TaskRequestDTO request
     ){
-        TaskResponseDTO saved = task.create(userId, request);
+        TaskResponseDTO saved = task.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 

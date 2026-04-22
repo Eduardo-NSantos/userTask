@@ -23,4 +23,6 @@ public class TaskRequestDTO {
 
     @NotNull
     private TaskPriority priority;
+
+    private Integer userId;
 }

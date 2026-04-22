@@ -1,13 +1,13 @@
 package com.eduardo.userTask.controllers;
 
 import com.eduardo.userTask.business.TaskService;
+import com.eduardo.userTask.dto.TaskDTO.TaskRequestDTO;
 import com.eduardo.userTask.dto.TaskDTO.TaskResponseDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +16,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserTaskController {
     private final TaskService task;
+
+    @PostMapping
+    public ResponseEntity<TaskResponseDTO> create(
+            @PathVariable Integer userId,
+            @RequestBody @Valid TaskRequestDTO request
+    ){
+        TaskResponseDTO saved = task.create(userId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
 
     @GetMapping
     public ResponseEntity<List<TaskResponseDTO>> tasksByUser(@PathVariable Integer userId){
