@@ -1,4 +1,6 @@
 package com.eduardo.userTask.enums;
 
-public class UserRole {
+public enum UserRole {
+    ADMIN,
+    USER
 }

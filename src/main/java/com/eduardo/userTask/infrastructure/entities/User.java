@@ -1,5 +1,6 @@
 package com.eduardo.userTask.infrastructure.entities;
 
+import com.eduardo.userTask.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +37,9 @@ public class User {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @PrePersist
     protected void onCreate(){
