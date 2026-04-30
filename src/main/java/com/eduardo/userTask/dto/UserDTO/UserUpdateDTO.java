@@ -1,5 +1,6 @@
 package com.eduardo.userTask.dto.UserDTO;
 
+import com.eduardo.userTask.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,4 +12,6 @@ public class UserUpdateDTO {
 
     @Email
     private String email;
+
+    private UserRole role;
 }

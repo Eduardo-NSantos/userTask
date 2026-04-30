@@ -7,12 +7,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TaskMapper {
-    public Task toEntity(TaskRequestDTO dto){
+    public Task toEntity(TaskRequestDTO request){
         return Task.builder()
-                .title(dto.getTitle())
-                .description(dto.getDescription())
-                .dueDate(dto.getDueDate())
-                .priority(dto.getPriority())
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .dueDate(request.getDueDate())
+                .status(request.getStatus())
+                .priority(request.getPriority())
                 .build();
     }
 

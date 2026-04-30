@@ -45,6 +45,10 @@ public class User {
     protected void onCreate(){
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+
+        if (role == null){
+            role = UserRole.USER;
+        }
     }
 
     @PreUpdate

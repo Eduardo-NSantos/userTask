@@ -73,6 +73,9 @@ public class UserService {
             assertEmailNotInUse(update.getEmail());
             user.setEmail(update.getEmail());
         }
+        if(update.getRole() != null){
+            user.setRole(update.getRole());
+        }
 
         return mapper.toDTO(user);
     }

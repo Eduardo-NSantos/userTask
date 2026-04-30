@@ -1,7 +1,9 @@
 package com.eduardo.userTask.dto.UserDTO;
 
+import com.eduardo.userTask.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +26,7 @@ public class UserResponseDTO {
 
     @NotBlank
     private LocalDateTime createdAt;
+
+    @NotNull
+    private UserRole role;
 }
