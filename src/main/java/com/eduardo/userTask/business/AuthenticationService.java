@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationMapper mapper;
     private final UserService userService;
