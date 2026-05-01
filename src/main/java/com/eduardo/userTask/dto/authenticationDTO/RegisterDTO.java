@@ -1,6 +1,5 @@
 package com.eduardo.userTask.dto.authenticationDTO;
 
-import com.eduardo.userTask.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -16,6 +15,4 @@ public class RegisterDTO {
 
     @NotBlank
     private String password;
-
-    private UserRole role;
 }

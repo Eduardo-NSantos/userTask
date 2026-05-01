@@ -14,7 +14,6 @@ public class AuthenticationMapper {
                 .password(
                         new BCryptPasswordEncoder().encode(register.getPassword())
                 )
-                .role(register.getRole())
                 .build();
     }
 }
