@@ -2,6 +2,7 @@ package com.eduardo.userTask.controllers;
 
 import com.eduardo.userTask.business.AuthenticationService;
 import com.eduardo.userTask.dto.authenticationDTO.LoginDTO;
+import com.eduardo.userTask.dto.authenticationDTO.LoginResponseDTO;
 import com.eduardo.userTask.dto.authenticationDTO.RegisterDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,9 @@ public class AuthenticationController {
     private final AuthenticationService auth;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody @Valid LoginDTO login){
-        auth.login(login);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginDTO login){
+        LoginResponseDTO token = auth.login(login);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/register")
