@@ -4,12 +4,14 @@ import com.eduardo.userTask.business.UserService;
 import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
 import com.eduardo.userTask.dto.UserDTO.UserResponseDTO;
 import com.eduardo.userTask.dto.UserDTO.UserUpdateDTO;
+import com.eduardo.userTask.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,9 +34,9 @@ public class UserController {
         return ResponseEntity.ok(user.findAll(pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> get(@PathVariable Integer id){
-        UserResponseDTO response = user.find(id);
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> get(@AuthenticationPrincipal CustomUserDetails userDetails){
+        UserResponseDTO response = user.find(userDetails.getUsername());
         return ResponseEntity.ok(response);
     }
 
