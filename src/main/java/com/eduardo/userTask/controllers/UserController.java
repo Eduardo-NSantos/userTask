@@ -36,22 +36,22 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserResponseDTO> get(@AuthenticationPrincipal CustomUserDetails userDetails){
-        UserResponseDTO response = user.find(userDetails.getUsername());
+        UserResponseDTO response = user.find(userDetails.getId());
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<UserResponseDTO> update(
-            @PathVariable Integer id,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid UserUpdateDTO update
     ){
-        UserResponseDTO response = user.update(id, update);
+        UserResponseDTO response = user.update(userDetails.getId(), update);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
-        user.delete(id);
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal CustomUserDetails userDetails){
+        user.delete(userDetails.getId());
         return ResponseEntity.noContent().build();
     }
 }

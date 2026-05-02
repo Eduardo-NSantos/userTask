@@ -32,14 +32,6 @@ public class UserService {
         );
     }
 
-    public User getActiveUserOrThrow(String email){
-        return repository.findByEmailAndDeletedAtIsNull(email).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Usuário não encontrado"
-                )
-        );
-    }
-
     public void assertEmailNotInUse(String email){
         if (repository.existsByEmail(email)){
             throw new ResponseStatusException(
@@ -64,8 +56,8 @@ public class UserService {
                 .map(mapper::toDTO);
     }
 
-    public UserResponseDTO find(String email){
-        User user = getActiveUserOrThrow(email);
+    public UserResponseDTO find(Integer id){
+        User user = getActiveUserOrThrow(id);
 
         return mapper.toDTO(user);
     }
