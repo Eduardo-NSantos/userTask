@@ -29,11 +29,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null){
             try {
                 var email = tokenService.validateToken(token);
-                UserDetails user = userRepository.findByEmail(email)
+                CustomUserDetails user = userRepository.findByEmail(email)
                         .map(CustomUserDetails::new)
                         .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-                var authentication = new UsernamePasswordAuthenticationToken(email, null, user.getAuthorities());
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             catch (Exception e){

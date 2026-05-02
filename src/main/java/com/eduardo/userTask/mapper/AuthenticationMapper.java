@@ -1,6 +1,7 @@
 package com.eduardo.userTask.mapper;
 
 import com.eduardo.userTask.dto.authenticationDTO.RegisterDTO;
+import com.eduardo.userTask.dto.authenticationDTO.RegisterResponseDTO;
 import com.eduardo.userTask.infrastructure.entities.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,16 @@ public class AuthenticationMapper {
                 .password(
                         new BCryptPasswordEncoder().encode(register.getPassword())
                 )
+                .build();
+    }
+
+    public RegisterResponseDTO toDTO(User user){
+        return RegisterResponseDTO.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
+                .role(user.getRole())
                 .build();
     }
 }
