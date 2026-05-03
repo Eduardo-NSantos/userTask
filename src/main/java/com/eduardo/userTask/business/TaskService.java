@@ -22,22 +22,12 @@ public class TaskService {
     private final TaskMapper mapper;
     private final UserService userService;
 
-    public Task findEntity(Integer id){
+    public Task getEntityOrThrow(Integer id){
         return repository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Task não encontrda"
                 )
         );
-    }
-
-    public TaskResponseDTO create(TaskRequestDTO request){
-        User user = userService.getActiveUserOrThrow(request.getUserId());
-
-        Task task = mapper.toEntity(request);
-        task.setUser(user);
-
-        Task saved = repository.save(task);
-        return mapper.toDTO(saved);
     }
 
     public TaskResponseDTO create(Integer userId, TaskRequestDTO request){
@@ -57,10 +47,6 @@ public class TaskService {
                 .toList();
     }
 
-    public TaskResponseDTO find(Integer id){
-        return mapper.toDTO(findEntity(id));
-    }
-
     public List<TaskResponseDTO> findAllTasksByUser(Integer userId){
         return repository.findByUserId(userId)
                 .stream()
@@ -68,10 +54,10 @@ public class TaskService {
                 .toList();
     }
 
-    public TaskResponseDTO findTaskByUser(Integer userId, Integer taskId){
+    public TaskResponseDTO find(Integer userId, Integer taskId){
         Task task = repository.findByIdAndUserId(taskId, userId).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.FORBIDDEN, "Essa task não pertence a este usuário"
+                        HttpStatus.FORBIDDEN, "Você não possui acesso a essa task"
                 )
         );
 
@@ -79,8 +65,14 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskResponseDTO update(Integer id, TaskUpdateDTO update){
-        Task task = findEntity(id);
+    public TaskResponseDTO update(Integer taskId, Integer userId, TaskUpdateDTO update){
+        Task task = getEntityOrThrow(taskId);
+
+        if (!task.getUser().getId().equals(userId)){
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, "Você não possui acesso a essa task"
+            );
+        }
 
         if (update.getTitle() != null){
             task.setTitle(update.getTitle());
@@ -102,8 +94,14 @@ public class TaskService {
     }
 
     @Transactional
-    public void delete(Integer id){
-        Task task = findEntity(id);
+    public void delete(Integer taskId, Integer userId){
+        Task task = getEntityOrThrow(taskId);
+
+        if (!task.getUser().getId().equals(userId)){
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, "Você não possui acesso a essa task"
+            );
+        }
 
         repository.delete(task);
     }

@@ -4,10 +4,12 @@ import com.eduardo.userTask.business.TaskService;
 import com.eduardo.userTask.dto.TaskDTO.TaskRequestDTO;
 import com.eduardo.userTask.dto.TaskDTO.TaskResponseDTO;
 import com.eduardo.userTask.dto.TaskDTO.TaskUpdateDTO;
+import com.eduardo.userTask.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +22,10 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskResponseDTO> create(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid TaskRequestDTO request
     ){
-        TaskResponseDTO saved = task.create(request);
+        TaskResponseDTO saved = task.create(userDetails.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -31,22 +34,37 @@ public class TaskController {
         return ResponseEntity.ok(task.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TaskResponseDTO> get(@PathVariable Integer id){
-        return ResponseEntity.ok(task.find(id));
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskResponseDTO> get(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Integer taskId
+    ){
+        return ResponseEntity.ok(task.find(userDetails.getId(), taskId));
     }
 
-    @PutMapping("/{id}")
+    @GetMapping("my-tasks")
+    public ResponseEntity<List<TaskResponseDTO>> getAllByUser(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        List<TaskResponseDTO> tasks = task.findAllTasksByUser(userDetails.getId());
+        return ResponseEntity.ok(tasks);
+    }
+
+    @PutMapping("/{taskId}")
     public ResponseEntity<TaskResponseDTO> update(
-            @PathVariable Integer id,
+            @PathVariable Integer taskId,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid TaskUpdateDTO update
     ){
-        return ResponseEntity.ok(task.update(id, update));
+        return ResponseEntity.ok(task.update(taskId, userDetails.getId(), update));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
-        task.delete(id);
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Integer taskId
+    ){
+        task.delete(taskId, userDetails.getId());
         return ResponseEntity.noContent().build();
     }
 }
