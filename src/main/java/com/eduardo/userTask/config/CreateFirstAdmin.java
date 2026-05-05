@@ -1,7 +1,7 @@
 package com.eduardo.userTask.config;
 
 import com.eduardo.userTask.business.UserService;
-import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
+import com.eduardo.userTask.dto.userDTO.UserRequestDTO;
 import com.eduardo.userTask.infrastructure.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

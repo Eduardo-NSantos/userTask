@@ -1,4 +1,4 @@
-package com.eduardo.userTask.dto.UserDTO;
+package com.eduardo.userTask.dto.userDTO;
 
 import com.eduardo.userTask.enums.UserRole;
 import jakarta.validation.constraints.Email;

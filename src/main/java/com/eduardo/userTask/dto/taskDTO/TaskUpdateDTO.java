@@ -1,4 +1,4 @@
-package com.eduardo.userTask.dto.TaskDTO;
+package com.eduardo.userTask.dto.taskDTO;
 
 import com.eduardo.userTask.enums.TaskPriority;
 import com.eduardo.userTask.enums.TaskStatus;

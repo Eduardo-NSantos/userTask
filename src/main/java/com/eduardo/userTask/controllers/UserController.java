@@ -1,9 +1,9 @@
 package com.eduardo.userTask.controllers;
 
 import com.eduardo.userTask.business.UserService;
-import com.eduardo.userTask.dto.UserDTO.UserRequestDTO;
-import com.eduardo.userTask.dto.UserDTO.UserResponseDTO;
-import com.eduardo.userTask.dto.UserDTO.UserUpdateDTO;
+import com.eduardo.userTask.dto.userDTO.UserRequestDTO;
+import com.eduardo.userTask.dto.userDTO.UserResponseDTO;
+import com.eduardo.userTask.dto.userDTO.UserUpdateDTO;
 import com.eduardo.userTask.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

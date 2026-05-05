@@ -1,8 +1,8 @@
 package com.eduardo.userTask.business;
 
-import com.eduardo.userTask.dto.TaskDTO.TaskRequestDTO;
-import com.eduardo.userTask.dto.TaskDTO.TaskResponseDTO;
-import com.eduardo.userTask.dto.TaskDTO.TaskUpdateDTO;
+import com.eduardo.userTask.dto.taskDTO.TaskRequestDTO;
+import com.eduardo.userTask.dto.taskDTO.TaskResponseDTO;
+import com.eduardo.userTask.dto.taskDTO.TaskUpdateDTO;
 import com.eduardo.userTask.infrastructure.entities.Task;
 import com.eduardo.userTask.infrastructure.entities.User;
 import com.eduardo.userTask.infrastructure.repositories.TaskRepository;
