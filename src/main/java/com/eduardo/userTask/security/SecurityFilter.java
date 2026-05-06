@@ -26,12 +26,14 @@ public class SecurityFilter extends OncePerRequestFilter {
     @NullMarked
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = recoverToken(request);
-        if (token != null){
+        var email = tokenService.validateToken(token);
+        if (email != null){
             try {
-                var email = tokenService.validateToken(token);
                 CustomUserDetails user = userRepository.findByEmail(email)
                         .map(CustomUserDetails::new)
-                        .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+                        .orElseThrow(
+                                () -> new UsernameNotFoundException("Usuário não encontrado")
+                        );
 
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -40,6 +42,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 SecurityContextHolder.clearContext();
             }
         }
+
         filterChain.doFilter(request, response);
     }
 
