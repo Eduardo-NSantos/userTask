@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -73,8 +74,10 @@ public class UserService {
             assertEmailNotInUse(update.getEmail());
             user.setEmail(update.getEmail());
         }
-        if(update.getRole() != null){
-            user.setRole(update.getRole());
+        if(update.getPassword() != null){
+            user.setPassword(
+                    new BCryptPasswordEncoder().encode(update.getPassword())
+            );
         }
 
         return mapper.toDTO(user);
